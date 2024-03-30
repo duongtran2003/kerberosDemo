@@ -33,9 +33,15 @@ app.listen('5000', async () => {
 });
 
 app.post('/getTicket', (req, res) => {
+  console.log(req.body);
   const ticketGrantingTicket = req.body.ticketGrantingTicket;
   const serviceName = req.body.serviceName;
   const userAuthenticator = req.body.userAuthenticator;
+  if (!ticketGrantingTicket || !serviceName || !userAuthenticator) {
+    return res.status(400).json({
+      "message": "bad request",
+    });
+  }
   const serviceSecretKey = services[serviceName];
   const decryptedUnparsedGrantingTicket = decrypt(ticketGrantingTicket, tgsKey);
   if (!decryptedUnparsedGrantingTicket) {

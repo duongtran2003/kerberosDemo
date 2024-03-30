@@ -33,8 +33,14 @@ app.listen('2000', async () => {
 });
 
 app.post('/access', (req, res) => {
+  console.log(req.body);
   const userAuthenticator = req.body.userAuthenticator;
   const serviceTicket = req.body.serviceTicket;
+  if (!userAuthenticator || !serviceTicket) {
+    return res.status(400).json({
+      "message": "bad request",
+    });
+  }
   const decryptedUnparsedServiceTicket = decrypt(serviceTicket, serviceKey);
   if (!decryptedUnparsedServiceTicket) {
     console.log(1);

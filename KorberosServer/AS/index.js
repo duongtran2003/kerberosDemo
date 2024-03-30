@@ -33,7 +33,13 @@ app.listen('4000', async () => {
 });
 
 app.post('/authen', (req, res) => {
+  console.log(req.body);
   const username = req.body.username;
+  if (!username) {
+    return res.status(400).json({
+      "message": "bad request"
+    });
+  }
   if (!users[username]) {
     return res.status(401).json({
       "message": "wrong credentials",
